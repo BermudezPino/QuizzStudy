@@ -217,7 +217,7 @@ Si tienes dudas sobre cómo contribuir:
 - Abre un issue en GitHub
 - Contacta directamente a través de:
   - Email: juanitodiscord15@gmail.com
-  - Discord: kubaliski
+  - Discord: truekee
   - Compañeros de clase que ya hayan contribuido
 
 ---
