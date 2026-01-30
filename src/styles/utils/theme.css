@@ -1,0 +1,52 @@
+/*********************************************
+ * THEME TOKENS - Estilo PROMETEO
+ * Fondo sage/mint, verde bosque para cabecera y botones,
+ * acentos en verde más suave. Cards en off-white.
+ *********************************************/
+
+:root {
+  /* Fondo principal de página (sage/mint desaturado) */
+  --color-page-bg: #eef5f2;
+
+  /* Paleta marca: verde bosque / esmeralda apagada */
+  --color-brand-50:  #eef5f2;
+  --color-brand-100: #d9f0e8;
+  --color-brand-400: #3dbda3;
+  --color-brand-500: #0d9488;
+  --color-brand-600: #0d7a6a; /* principal: cabecera, botones, logo */
+  --color-brand-700: #0b6b5c;
+  --color-brand-800: #0a5c4e;
+  --color-brand-900: #094d42;
+
+  --color-brand-50-rgb: 238, 245, 242;
+  --color-brand-100-rgb: 217, 240, 232;
+  --color-brand-400-rgb: 61, 189, 163;
+  --color-brand-500-rgb: 13, 148, 136;
+  --color-brand-600-rgb: 13, 122, 106;
+  --color-brand-700-rgb: 11, 107, 92;
+  --color-brand-800-rgb: 10, 92, 78;
+  --color-brand-900-rgb: 9, 77, 66;
+}
+
+/* Base .bg-page (modo claro con degradado y modo oscuro se definen en theme-page-bg.css) */
+.bg-page { background-color: var(--color-page-bg) !important; }
+
+/* Utilidades básicas */
+.bg-brand-50 { background-color: var(--color-brand-50); }
+.bg-brand-100 { background-color: var(--color-brand-100); }
+.bg-brand-600 { background-color: var(--color-brand-600); }
+.bg-brand-700 { background-color: var(--color-brand-700); }
+.bg-brand-800 { background-color: var(--color-brand-800); }
+.bg-brand-900 { background-color: var(--color-brand-900); }
+
+.text-brand-400 { color: var(--color-brand-400); }
+.text-brand-600 { color: var(--color-brand-600); }
+.text-brand-700 { color: var(--color-brand-700); }
+.text-brand-800 { color: var(--color-brand-800); }
+.text-brand-900 { color: var(--color-brand-900); }
+
+.border-brand-400 { border-color: var(--color-brand-400); }
+.border-brand-600 { border-color: var(--color-brand-600); }
+.border-brand-700 { border-color: var(--color-brand-700); }
+.border-brand-800 { border-color: var(--color-brand-800); }
+.border-brand-900 { border-color: var(--color-brand-900); }

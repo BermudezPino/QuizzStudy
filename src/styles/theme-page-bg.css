@@ -1,0 +1,30 @@
+/**
+ * Fondo de página: modo claro = degradado mínimo sage; modo oscuro = sin cambios.
+ * Única definición de fondo body/#root (evitar duplicados con base.css).
+ */
+html:not(.dark) body,
+html:not(.dark) #root {
+  background-color: #eef5f2 !important;
+  background-image: linear-gradient(180deg, #eef5f2 0%, #e8f0ec 100%) !important;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Clase .bg-page en modo claro: mismo degradado */
+html:not(.dark) .bg-page {
+  background-color: #eef5f2 !important;
+  background-image: linear-gradient(180deg, #eef5f2 0%, #e8f0ec 100%) !important;
+}
+
+/* Modo oscuro: sin cambios. .bg-page sin fondo para que dark:bg-gray-900 aplique */
+html.dark body,
+html.dark #root {
+  background-color: #111827 !important;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+html.dark .bg-page {
+  background-image: none !important;
+  background-color: transparent !important;
+}
