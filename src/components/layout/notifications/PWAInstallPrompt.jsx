@@ -10,6 +10,8 @@ import { useState, useEffect } from 'react';
 import { Button, Card } from '@components/common';
 import { useTheme } from '@hooks';
 
+// Safari/iOS no soporta beforeinstallprompt; detectar para mostrar instrucciones
+const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
 const PWAInstallPrompt = () => {
   const [installPrompt, setInstallPrompt] = useState(null);
   const [isAppInstalled, setIsAppInstalled] = useState(false);
@@ -30,11 +32,9 @@ const PWAInstallPrompt = () => {
       return;
     }
 
-    // Capturar el evento beforeinstallprompt
+    // Capturar el evento beforeinstallprompt (solo Chrome/Android; Safari no lo dispara)
     const handleBeforeInstallPrompt = (e) => {
-      // Prevenir que Chrome muestre el prompt automáticamente
       e.preventDefault();
-      // Guardar el evento para usarlo más tarde
       setInstallPrompt(e);
     };
 
@@ -71,10 +71,54 @@ const PWAInstallPrompt = () => {
     localStorage.setItem('pwa-prompt-dismissed', Date.now().toString());
   };
 
-  // No mostrar nada si la app ya está instalada, no hay prompt disponible, o el usuario lo ha descartado
-  if (isAppInstalled || !installPrompt || dismissed) {
-    return null;
+  // No mostrar nada si la app ya está instalada o el usuario descartó
+  if (isAppInstalled || dismissed) return null;
+
+  // En iOS/Safari no existe beforeinstallprompt; mostrar instrucciones manuales
+  const showIOSInstructions = isIOS && !installPrompt;
+
+  if (showIOSInstructions) {
+    return (
+      <div className="fixed bottom-4 left-0 right-0 mx-auto max-w-sm z-50">
+        <Card
+          title="Instalar en iPhone/iPad"
+          footer={
+            <div className="flex justify-end w-full">
+              <Button variant="primary" size="small" onClick={handleDismiss}>
+                Entendido
+              </Button>
+            </div>
+          }
+        >
+          <div className="flex items-start space-x-3">
+            <div className="text-brand-600 dark:text-brand-400 mt-0.5 shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v3.586L7.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <p
+              className="text-sm font-medium"
+              style={{ color: darkMode ? 'var(--color-brand-300)' : 'var(--color-brand-700)' }}
+            >
+              Toca el botón <strong>Compartir</strong> (cuadrado con flecha hacia arriba) abajo en Safari y luego &quot;Añadir a pantalla de inicio&quot; para instalar la app.
+            </p>
+          </div>
+          <button
+            onClick={handleDismiss}
+            className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            aria-label="Cerrar"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
+          </button>
+        </Card>
+      </div>
+    );
   }
+
+  // Chrome/Android: mostrar botón Instalar solo si hay prompt
+  if (!installPrompt) return null;
 
   return (
     <div className="fixed bottom-4 left-0 right-0 mx-auto max-w-sm z-50">

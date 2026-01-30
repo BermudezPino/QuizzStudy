@@ -18,7 +18,7 @@ const Footer = memo(function Footer() {
   const currentYear = new Date().getFullYear();
 
   const handleCopyCopyright = useCallback(async () => {
-    const text = `© ${currentYear} Angel C. - Quiz App - MIT License`;
+    const text = `© ${currentYear} Angel C. - QuizzStudy - MIT License`;
     try {
       await navigator.clipboard.writeText(text);
       showToast('Copiado al portapapeles', 'success');
@@ -39,7 +39,7 @@ const Footer = memo(function Footer() {
                 className="inline-flex items-baseline gap-1 rounded hover:bg-gray-700 dark:hover:bg-gray-700 px-1 -mx-1 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 focus:ring-offset-gray-800 dark:focus:ring-offset-gray-900"
                 title="Clic para copiar"
               >
-                &copy; {currentYear} Angel C. · Quiz App
+                &copy; {currentYear} Angel C. · QuizzStudy
               </button>
               <VersionInfo />
             </p>
