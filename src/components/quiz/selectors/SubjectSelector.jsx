@@ -78,7 +78,7 @@ export default function SubjectSelector({ asignaturasPorAno }) {
   };
 
   return (
-    <Card title="Selecciona una asignatura">
+    <Card title="Selecciona un año y una asignatura">
       <div className="space-y-4">
         {Object.entries(asignaturasPorAno).map(([year, yearData]) => (
           <div key={year} className="border border-gray-200 dark:border-gray-700 rounded-lg">
