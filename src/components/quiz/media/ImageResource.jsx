@@ -5,11 +5,11 @@
  * Solo acepta rutas relativas (p. ej. /images/...) por seguridad (evitar javascript: o data:).
  *
  * @component
- * @param {Object} props - Propiedades del componente
- * @param {string} props.src - URL de la imagen (debe empezar por /)
- * @param {string} props.alt - Texto alternativo para accesibilidad
- * @param {string} [props.className] - Clases CSS adicionales
- * @returns {JSX.Element|null} Componente ImageResource o null si src no es segura
+ * @param {Object} props 
+ * @param {string} props.src 
+ * @param {string} props.alt 
+ * @param {string} [props.className] 
+ * @returns {JSX.Element|null}
  */
 import React from 'react';
 

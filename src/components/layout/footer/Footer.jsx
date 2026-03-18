@@ -18,7 +18,7 @@ const Footer = memo(function Footer() {
   const currentYear = new Date().getFullYear();
 
   const handleCopyCopyright = useCallback(async () => {
-    const text = `© ${currentYear} Angel C. - QuizzStudy - MIT License`;
+    const text = `© ${currentYear} - QuizzStudy - MIT License`;
     try {
       await navigator.clipboard.writeText(text);
       showToast('Copiado al portapapeles', 'success');

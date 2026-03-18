@@ -56,7 +56,7 @@ export default function HomePage() {
   return (
     <Layout>
       <PageHeader
-        title="Elige un año"
+        title="Elige un curso"
         subtitle="Selecciona un año y una asignatura para comenzar a practicar con los cuestionarios disponibles."
       />
 

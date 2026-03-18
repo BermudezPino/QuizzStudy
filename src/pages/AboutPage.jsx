@@ -160,7 +160,7 @@ export default function AboutPage() {
             <li>Abre un issue en nuestro repositorio de GitHub</li>
             <li>Contacta con cualquiera de los colaboradores principales</li>
             <li>Envía un correo a <a href="mailto:juanitodiscord15@gmail.com" className="text-brand-600 dark:text-brand-400 hover:text-brand-800 dark:hover:text-brand-300">juanitodiscord15@gmail.com</a></li>
-            <li>Escribe a discord <strong>kubaliski</strong></li>
+            <li>Escribe a discord <strong>truekee</strong></li>
             <li>Pregunta a cualquiera de los compañeros de clase que ya hayan contribuido</li>
           </ul>
           <p className="mt-4 text-gray-700 dark:text-gray-200">

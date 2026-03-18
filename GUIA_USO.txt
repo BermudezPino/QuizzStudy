@@ -1,0 +1,542 @@
+================================================================================
+GUÍA DE USO - QUIZZSTUDY
+Cómo crear nuevos años, asignaturas y tests con sus respuestas
+================================================================================
+
+Esta guía es para uso exclusivo del administrador de la aplicación.
+Contiene todos los pasos necesarios para añadir contenido nuevo a la aplicación.
+
+================================================================================
+ÚLTIMOS IDs UTILIZADOS (para referencia)
+================================================================================
+
+ASIGNATURAS:
+- Último ID usado: 19 (Sistemas Informáticos Segunda Promoción)
+- Rango recomendado para nuevas asignaturas: 20 en adelante
+
+MÓDULOS:
+- Último ID usado: 1901 (Sistemas Informáticos Segunda Promoción - Tema 1)
+- Patrón de IDs: [asignaturaId][númeroMódulo]
+  Ejemplo: Asignatura 15, módulo 6 = 1506
+- Rango recomendado para nuevos módulos: seguir el patrón según asignatura
+
+PREGUNTAS:
+- Último ID usado: 19030 (Sistemas Informáticos Segunda Promoción - Tema 1)
+- Patrón de IDs: [moduloId][númeroPregunta] (con 2 dígitos para el número)
+  Ejemplo: Módulo 1901, pregunta 1 = 19001, pregunta 30 = 19030
+- Rango recomendado para nuevas preguntas: seguir el patrón según módulo
+
+================================================================================
+ESTRUCTURA DE AÑOS Y PROMOCIONES
+================================================================================
+
+La aplicación organiza el contenido en 3 grupos:
+
+1. AÑO 1 - Primera Promoción
+   - Código en sistema: año 1
+   - Array: asignaturasPrimerAno
+   - Asignaturas actuales: Sistemas Informáticos, Bases de Datos, Programación,
+     Lenguaje de Marcas, Entornos de Desarrollo, Itinerario Empleabilidad,
+     Módulo Profesional Optativo
+
+2. AÑO 2 - Primera Promoción
+   - Código en sistema: año 2
+   - Array: asignaturasSegundoAno
+   - Asignaturas actuales: Despliegue Aplicaciones Web, Digitalización,
+     Diseño Interfaces, Entorno Cliente, Entorno Servidor,
+     Itinerario Empleabilidad 2, Sostenibilidad
+
+3. AÑO 3 - Segunda Promoción
+   - Código en sistema: año 3
+   - Array: asignaturasSegundaPromocion
+   - Asignaturas actuales: Programación SP, Lenguaje Marcas SP,
+     Módulo Profesional Optativo SP, Sistemas Informáticos SP
+
+================================================================================
+PASO 1: CREAR UN NUEVO AÑO (si es necesario)
+================================================================================
+
+Si necesitas crear un nuevo año completo (por ejemplo, año 4):
+
+1. Abre el archivo: src/data/index.js
+
+2. En la sección de imports, añade las importaciones de las nuevas asignaturas:
+   Ejemplo:
+   import nuevoAnoAsignatura1 from "./asignaturas/nuevaAsignatura1";
+   import nuevoAnoAsignatura2 from "./asignaturas/nuevaAsignatura2";
+
+3. Crea el array de asignaturas del nuevo año:
+   const asignaturasCuartoAno = [
+     nuevoAnoAsignatura1,
+     nuevoAnoAsignatura2,
+     // ... más asignaturas
+   ];
+
+4. Añade el nuevo año al objeto asignaturasPorAno:
+   export const asignaturasPorAno = {
+     1: { ... },
+     2: { ... },
+     3: { ... },
+     4: {
+       nombre: "Cuarto Año | Primera Promoción", // o el nombre que corresponda
+       asignaturas: asignaturasCuartoAno,
+       disponible: true
+     }
+   };
+
+NOTA: Normalmente NO necesitarás crear un nuevo año. Lo más común es añadir
+asignaturas a los años existentes (1, 2 o 3).
+
+================================================================================
+PASO 2: CREAR UNA NUEVA ASIGNATURA
+================================================================================
+
+2.1. Crear la carpeta de la asignatura
+---------------------------------------
+- Ubicación: src/data/asignaturas/[nombreAsignatura]/
+- Nombre de carpeta: usar camelCase (ejemplo: programacionWeb, basesDeDatos)
+- Ejemplo: src/data/asignaturas/miNuevaAsignatura/
+
+2.2. Crear el archivo info.js
+------------------------------
+Ubicación: src/data/asignaturas/[nombreAsignatura]/info.js
+
+Estructura:
+export const info = {
+    id: 20,  // ← USAR EL SIGUIENTE ID DISPONIBLE (último usado: 19)
+    nombre: "Nombre de la Asignatura",
+    descripcion: "Descripción breve de la asignatura",
+    imagen: "/img/asignaturas/nombreAsignatura.jpg",  // Opcional
+    objetivos: [  // Opcional
+        "Objetivo 1",
+        "Objetivo 2",
+        "Objetivo 3"
+    ],
+};
+export default info;
+
+IMPORTANTE:
+- Si es Segunda Promoción (Año 3), añade " | Segunda Promoción" al nombre:
+  nombre: "Nombre Asignatura | Segunda Promoción"
+  (La app lo ocultará automáticamente en pantalla)
+
+2.3. Crear la carpeta modulos
+------------------------------
+- Ubicación: src/data/asignaturas/[nombreAsignatura]/modulos/
+- Esta carpeta contendrá todos los tests/módulos de la asignatura
+
+2.4. Crear el archivo index.js de la asignatura
+------------------------------------------------
+Ubicación: src/data/asignaturas/[nombreAsignatura]/index.js
+
+Estructura:
+import info from "./info.js";
+import modulo1 from "./modulos/modulo1.js";
+import modulo2 from "./modulos/modulo2.js";
+// ... importar todos los módulos
+
+export const nombreAsignatura = {
+  ...info,
+  modulos: [
+    modulo1,
+    modulo2,
+    // ... todos los módulos
+  ]
+};
+
+export default nombreAsignatura;
+
+2.5. Registrar la asignatura en src/data/index.js
+---------------------------------------------------
+1. Añade el import al inicio del archivo:
+   import nombreAsignatura from "./asignaturas/nombreAsignatura";
+
+2. Añade la asignatura al array correspondiente según el año:
+   
+   Para Año 1 (Primera Promoción):
+   const asignaturasPrimerAno = [
+     // ... asignaturas existentes
+     nombreAsignatura,
+   ];
+
+   Para Año 2 (Primera Promoción):
+   const asignaturasSegundoAno = [
+     // ... asignaturas existentes
+     nombreAsignatura,
+   ];
+
+   Para Año 3 (Segunda Promoción):
+   const asignaturasSegundaPromocion = [
+     // ... asignaturas existentes
+     nombreAsignatura,
+   ];
+
+IMPORTANTE: Si no registras la asignatura aquí, NO aparecerá en la aplicación.
+
+================================================================================
+PASO 3: CREAR UN NUEVO TEST/MÓDULO
+================================================================================
+
+3.1. Crear el archivo del módulo
+---------------------------------
+Ubicación: src/data/asignaturas/[nombreAsignatura]/modulos/[nombreModulo].js
+
+Estructura básica:
+export const moduloNombreModulo = {
+    id: 2001,  // ← ID único del módulo (patrón: [asignaturaId][número])
+    nombre: "Nombre del Módulo",
+    asignaturaId: 20,  // ← Debe coincidir con el id de la asignatura
+    descripcion: "Descripción del módulo/test",
+    esExamen: false,  // true si es un examen (se marca en rojo)
+    preguntas: [
+        // Las preguntas van aquí (ver Paso 4)
+    ]
+};
+
+export default moduloNombreModulo;
+
+PATRÓN DE IDs PARA MÓDULOS:
+- Asignatura ID 20, módulo 1 = 2001
+- Asignatura ID 20, módulo 2 = 2002
+- Asignatura ID 20, módulo 10 = 2010
+- Asignatura ID 20, módulo 11 = 2011
+
+IMPORTANTE:
+- Si es Segunda Promoción, añade " (SP)" al nombre del módulo:
+  nombre: "Tema 1 (SP)"
+  (La app lo ocultará automáticamente en pantalla)
+
+3.2. Registrar el módulo en la asignatura
+------------------------------------------
+Edita: src/data/asignaturas/[nombreAsignatura]/index.js
+
+1. Añade el import:
+   import moduloNombreModulo from "./modulos/nombreModulo.js";
+
+2. Añádelo al array de módulos:
+   export const nombreAsignatura = {
+     ...info,
+     modulos: [
+       // ... otros módulos
+       moduloNombreModulo,
+     ]
+   };
+
+================================================================================
+PASO 4: CREAR PREGUNTAS CON SUS RESPUESTAS
+================================================================================
+
+4.1. Estructura básica de una pregunta
+---------------------------------------
+Cada pregunta es un objeto dentro del array preguntas del módulo:
+
+{
+    id: 20011,  // ← ID único (patrón: [moduloId][número] con 2 dígitos)
+    moduloId: 2001,  // ← Debe coincidir con el id del módulo
+    pregunta: "¿Cuál es la pregunta?",
+    opciones: [
+        "Opción 1",
+        "Opción 2",
+        "Opción 3",
+        "Opción 4"
+    ],
+    respuestaCorrecta: 1,  // ← Índice base 0 (0, 1, 2 o 3)
+    explicacion: "Explicación de por qué esta es la respuesta correcta"
+}
+
+PATRÓN DE IDs PARA PREGUNTAS:
+- Módulo ID 2001, pregunta 1 = 20001
+- Módulo ID 2001, pregunta 2 = 20002
+- Módulo ID 2001, pregunta 10 = 20010
+- Módulo ID 2001, pregunta 11 = 20011
+- Módulo ID 2001, pregunta 99 = 20099
+
+IMPORTANTE:
+- respuestaCorrecta usa índice base 0:
+  * 0 = primera opción
+  * 1 = segunda opción
+  * 2 = tercera opción
+  * 3 = cuarta opción
+
+4.2. Pregunta con imagen
+-------------------------
+Si la pregunta necesita una imagen:
+
+{
+    id: 20012,
+    moduloId: 2001,
+    pregunta: "¿Qué muestra esta imagen?",
+    recurso: {
+        tipo: "imagen",
+        contenido: "/images/[nombreModulo]/pregunta12.png",
+        altText: "Descripción accesible de la imagen"
+    },
+    opciones: ["Opción 1", "Opción 2", "Opción 3", "Opción 4"],
+    respuestaCorrecta: 2,
+    explicacion: "Explicación..."
+}
+
+UBICACIÓN DE IMÁGENES:
+- Carpeta: public/images/[nombreModulo]/
+- Ejemplo: public/images/miModulo/pregunta12.png
+- La ruta en el código debe empezar con "/images/"
+
+4.3. Pregunta con código
+-------------------------
+Si la pregunta incluye código:
+
+{
+    id: 20013,
+    moduloId: 2001,
+    pregunta: "¿Qué imprime este código?",
+    recurso: {
+        tipo: "codigo",
+        contenido: `function ejemplo() {\n  return "Hola";\n}\nconsole.log(ejemplo());`,
+        lenguaje: "javascript"  // javascript, python, java, html, css, etc.
+    },
+    opciones: ["Opción 1", "Opción 2", "Opción 3", "Opción 4"],
+    respuestaCorrecta: 0,
+    explicacion: "Explicación..."
+}
+
+LENGUAJES SOPORTADOS:
+javascript, python, java, html, css, bash, sql, csharp, php, ruby, etc.
+
+4.4. Ejemplo completo de módulo con preguntas
+----------------------------------------------
+export const moduloEjemplo = {
+    id: 2001,
+    nombre: "Tema 1: Introducción",
+    asignaturaId: 20,
+    descripcion: "Preguntas básicas sobre el tema",
+    esExamen: false,
+    preguntas: [
+        {
+            id: 20001,
+            moduloId: 2001,
+            pregunta: "¿Cuál es la primera pregunta?",
+            opciones: ["A", "B", "C", "D"],
+            respuestaCorrecta: 0,
+            explicacion: "La respuesta correcta es A porque..."
+        },
+        {
+            id: 20002,
+            moduloId: 2001,
+            pregunta: "¿Cuál es la segunda pregunta?",
+            recurso: {
+                tipo: "imagen",
+                contenido: "/images/tema1/pregunta2.png",
+                altText: "Diagrama explicativo"
+            },
+            opciones: ["Opción 1", "Opción 2", "Opción 3", "Opción 4"],
+            respuestaCorrecta: 2,
+            explicacion: "La respuesta correcta es la opción 3 porque..."
+        },
+        {
+            id: 20003,
+            moduloId: 2001,
+            pregunta: "¿Qué hace este código?",
+            recurso: {
+                tipo: "codigo",
+                contenido: `let x = 5;\nconsole.log(x * 2);`,
+                lenguaje: "javascript"
+            },
+            opciones: ["5", "10", "Error", "undefined"],
+            respuestaCorrecta: 1,
+            explicacion: "El código imprime 10 porque multiplica 5 por 2"
+        }
+    ]
+};
+
+export default moduloEjemplo;
+
+================================================================================
+CHECKLIST ANTES DE FINALIZAR
+================================================================================
+
+Antes de considerar que has terminado, verifica:
+
+[ ] IDs únicos:
+    - Asignatura tiene un ID único (no se repite con otras asignaturas)
+    - Módulo tiene un ID único (no se repite con otros módulos)
+    - Cada pregunta tiene un ID único (no se repite con otras preguntas)
+
+[ ] Consistencia de IDs:
+    - asignaturaId en el módulo coincide con id de la asignatura
+    - moduloId en cada pregunta coincide con id del módulo
+
+[ ] Registro en index.js:
+    - La asignatura está importada en src/data/index.js
+    - La asignatura está añadida al array correcto (año 1, 2 o 3)
+    - El módulo está importado en el index.js de la asignatura
+    - El módulo está añadido al array de módulos
+
+[ ] Estructura de archivos:
+    - Carpeta de asignatura creada en src/data/asignaturas/
+    - Archivo info.js creado con la estructura correcta
+    - Archivo index.js de la asignatura creado
+    - Carpeta modulos/ creada
+    - Archivos de módulos creados en modulos/
+
+[ ] Contenido de preguntas:
+    - Todas las preguntas tienen 4 opciones
+    - respuestaCorrecta es un número entre 0 y 3
+    - Todas las preguntas tienen explicacion
+    - Si hay imágenes, están en public/images/[modulo]/
+    - Si hay código, el lenguaje está especificado
+
+[ ] Nombres para Segunda Promoción:
+    - Si es Segunda Promoción, el nombre de la asignatura tiene " | Segunda Promoción"
+    - Si es Segunda Promoción, los nombres de módulos tienen " (SP)"
+
+[ ] Validación:
+    - Ejecutar: npm run lint (debe pasar sin errores)
+    - Ejecutar: npm test -- --run (debe pasar sin errores)
+    - Ejecutar: npm run build (debe compilar correctamente)
+
+================================================================================
+EJEMPLO COMPLETO: Crear una nueva asignatura paso a paso
+================================================================================
+
+Supongamos que quieres crear la asignatura "Inteligencia Artificial" para el Año 2:
+
+1. Crear carpeta:
+   src/data/asignaturas/inteligenciaArtificial/
+
+2. Crear info.js:
+   src/data/asignaturas/inteligenciaArtificial/info.js
+   
+   export const info = {
+       id: 20,
+       nombre: "Inteligencia Artificial",
+       descripcion: "Fundamentos de IA y machine learning",
+       imagen: "/img/asignaturas/inteligenciaArtificial.jpg",
+       objetivos: [
+           "Comprender conceptos básicos de IA",
+           "Aprender algoritmos de machine learning"
+       ],
+   };
+   export default info;
+
+3. Crear carpeta modulos:
+   src/data/asignaturas/inteligenciaArtificial/modulos/
+
+4. Crear primer módulo:
+   src/data/asignaturas/inteligenciaArtificial/modulos/introduccion.js
+   
+   export const moduloIntroduccion = {
+       id: 2001,
+       nombre: "Introducción a la IA",
+       asignaturaId: 20,
+       descripcion: "Conceptos básicos",
+       esExamen: false,
+       preguntas: [
+           {
+               id: 20001,
+               moduloId: 2001,
+               pregunta: "¿Qué es la Inteligencia Artificial?",
+               opciones: [
+                   "Un tipo de hardware",
+                   "Sistemas que simulan inteligencia humana",
+                   "Un lenguaje de programación",
+                   "Un sistema operativo"
+               ],
+               respuestaCorrecta: 1,
+               explicacion: "La IA son sistemas que simulan procesos de inteligencia humana"
+           }
+           // ... más preguntas
+       ]
+   };
+   export default moduloIntroduccion;
+
+5. Crear index.js de la asignatura:
+   src/data/asignaturas/inteligenciaArtificial/index.js
+   
+   import info from "./info.js";
+   import moduloIntroduccion from "./modulos/introduccion.js";
+   
+   export const inteligenciaArtificial = {
+       ...info,
+       modulos: [
+           moduloIntroduccion
+       ]
+   };
+   export default inteligenciaArtificial;
+
+6. Registrar en src/data/index.js:
+   
+   a) Añadir import (al inicio):
+      import inteligenciaArtificial from "./asignaturas/inteligenciaArtificial";
+   
+   b) Añadir al array de Año 2:
+      const asignaturasSegundoAno = [
+          despliegueDeAplicacionesWeb,
+          // ... otras asignaturas
+          inteligenciaArtificial,  // ← Añadir aquí
+      ];
+
+7. Verificar:
+   npm run lint
+   npm test -- --run
+   npm run build
+
+¡Listo! La asignatura debería aparecer en la aplicación.
+
+================================================================================
+NOTAS IMPORTANTES
+================================================================================
+
+1. IDs ÚNICOS: Los IDs deben ser únicos en TODA la aplicación, no solo dentro
+   de una asignatura. Revisa siempre que no haya conflictos.
+
+2. NOMBRES: Usa camelCase para nombres de carpetas y variables JavaScript.
+   Ejemplo: miNuevaAsignatura, no mi-nueva-asignatura ni MiNuevaAsignatura.
+
+3. RUTAS DE IMÁGENES: Las rutas empiezan con "/images/" y son relativas a la
+   carpeta public/. No uses rutas absolutas ni "../".
+
+4. RESPUESTA CORRECTA: Recuerda que es índice base 0:
+   - Primera opción = 0
+   - Segunda opción = 1
+   - Tercera opción = 2
+   - Cuarta opción = 3
+
+5. SEGUNDA PROMOCIÓN: Si añades contenido para Segunda Promoción:
+   - Nombre asignatura: "Nombre | Segunda Promoción"
+   - Nombre módulo: "Tema X (SP)"
+   - La app ocultará estos sufijos automáticamente
+
+6. VALIDACIÓN: Siempre ejecuta los comandos de validación antes de considerar
+   que has terminado. Esto evitará errores en producción.
+
+================================================================================
+COMANDOS ÚTILES
+================================================================================
+
+# Verificar sintaxis y estilo
+npm run lint
+
+# Ejecutar tests
+npm test -- --run
+
+# Compilar para producción
+npm run build
+
+# Servidor de desarrollo (para probar cambios)
+npm run dev
+
+# Vista previa del build
+npm run preview
+
+================================================================================
+CONTACTO Y SOPORTE
+================================================================================
+
+Si tienes dudas o problemas:
+1. Revisa la documentación oficial en docs/adding-content.md
+2. Consulta ejemplos existentes en src/data/asignaturas/
+3. Verifica que sigues el patrón de IDs correctamente
+
+================================================================================
+FIN DE LA GUÍA
+================================================================================

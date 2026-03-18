@@ -8,10 +8,10 @@ Aplicación educativa de cuestionarios para DAM, organizada por asignaturas y m�
 
 ## Autoría y licencia
 
-- **Proyecto original:** Angel C. (licencia MIT).
-- **Este repositorio:** copia de la versión original, adaptada y mantenida con fines educativos. No se reclama autoría del proyecto base.
-- **Archivo de licencia:** [LICENSE](./LICENSE) — **no se modifica**; contiene el copyright del autor original.
-- **Esta versión:** editada y mantenida por BermudezPino (contenido, temas y mejoras sobre el proyecto base).
+- Proyecto original: Angel C. (licencia MIT).
+- Este repositorio: copia de la versión original, adaptada y mantenida con fines educativos. No se reclama autoría del proyecto base.
+- Archivo de licencia: [LICENSE](./LICENSE) — **no se modifica**; contiene el copyright del autor original.
+- Esta versión: editada y mantenida por BermudezPino (contenido, temas y mejoras sobre el proyecto base).
 
 ---
 
@@ -28,7 +28,7 @@ Aplicación educativa de cuestionarios para DAM, organizada por asignaturas y m�
 - Modo claro/oscuro y diseño responsive.
 - Resultados con explicaciones, historial y exportación a PDF.
 - Módulos tipo “examen” y práctica por tema.
-- **Mis secciones:** tests pendientes, preguntas favoritas y **preguntas fallidas** (repaso de fallos).
+- Mis secciones: tests pendientes, preguntas favoritas y preguntas fallidas (repaso de fallos).
 - PWA instalable (escritorio y móvil) y funcionamiento offline.
 
 ---
