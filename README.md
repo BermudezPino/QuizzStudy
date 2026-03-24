@@ -1,7 +1,7 @@
 # QuizzStudy
 
 > Aplicación educativa de cuestionarios para el ciclo formativo DAM, organizada por asignaturas, años y promociones. Sin base de datos, sin backend: todo el contenido vive en el código.
-[![Netlify Status](https://api.netlify.com/api/v1/badges/ec326eee-270c-43f9-bf24-2bf0a9975e29/deploy-status)]
+[![Netlify Status](https://api.netlify.com/api/v1/badges/ec326eee-270c-43f9-bf24-2bf0a9975e29/deploy-status)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
