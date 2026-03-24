@@ -22,6 +22,8 @@ import entornoCliente from "./asignaturas/entornoCliente";
 import entornoServidor from "./asignaturas/entornoServidor";
 import itinearioParaLaEmpleabilidad2 from "./asignaturas/itinearioParaLaEmpleabilidad2";
 import sostenibilidad from "./asignaturas/sostenibilidad";
+import basesDeDatosSegundaPromocion from "./asignaturas/basesDeDatosSegundaPromocion";
+import entornosDesarrolloSegundaPromocion from "./asignaturas/entornosDesarrolloSegundaPromocion";
 
 // Asignaturas de primer año (las actuales)
 const asignaturasPrimerAno = [
@@ -51,6 +53,8 @@ const asignaturasSegundaPromocion = [
   lenguajeMarcasSegundaPromocion,
   moduloProfesionalOptativoSegundaPromocion,
   sistemasInformaticosSegundaPromocion,
+  basesDeDatosSegundaPromocion,
+  entornosDesarrolloSegundaPromocion,
 ];
 
 // Exporta la lista simple de asignaturas (solo metadatos)
