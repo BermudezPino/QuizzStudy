@@ -65,7 +65,7 @@ describe('ModuleSelector', () => {
     );
 
     // Verificar que el botón de examen está presente
-    expect(screen.getByText('30 preguntas aleatorias de test de examen')).toBeInTheDocument();
+    expect(screen.getByText('Todas las preguntas de test de examen')).toBeInTheDocument();
   });
 
   it('no muestra el botón de examen cuando no hay módulos de examen', () => {
@@ -95,6 +95,6 @@ describe('ModuleSelector', () => {
     );
 
     // Verificar que el botón de examen NO está presente
-    expect(screen.queryByText('30 preguntas aleatorias de test de examen')).not.toBeInTheDocument();
+    expect(screen.queryByText('Todas las preguntas de test de examen')).not.toBeInTheDocument();
   });
 });
