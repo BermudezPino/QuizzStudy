@@ -12,12 +12,37 @@
  * @param {string|number} props.asignaturaId - Identificador de la asignatura actual
  * @returns {JSX.Element} Componente ModuleSelector renderizado
  */
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Button } from '@components/common';
 import { formatModuloNombreForDisplay } from '@utils/quizUtils';
 
+/**
+ * Returns a Set of moduloId values that have been completed with 100% score
+ * for the given asignaturaId, reading directly from localStorage.
+ * @param {string|number} asignaturaId
+ * @returns {Set<string>}
+ */
+function getPerfectModulos(asignaturaId) {
+  try {
+    const historico = JSON.parse(localStorage.getItem('quiz_historico') || '[]');
+    const perfectIds = new Set();
+    for (const entry of historico) {
+      if (String(entry.asignaturaId) === String(asignaturaId) && entry.porcentaje === 100) {
+        perfectIds.add(String(entry.moduloId));
+      }
+    }
+    return perfectIds;
+  } catch {
+    return new Set();
+  }
+}
+
 export default function ModuleSelector({ modulos, asignaturaId }) {
   const navigate = useNavigate();
+
+  // Compute which modules have ever been completed with a perfect score
+  const perfectModulos = useMemo(() => getPerfectModulos(asignaturaId), [asignaturaId]);
 
   // Separamos los módulos regulares y los de examen
   const modulosExamen = modulos.filter(modulo => modulo.esExamen);
@@ -54,23 +79,37 @@ export default function ModuleSelector({ modulos, asignaturaId }) {
     <div className="space-y-6">
       <Card title="Selecciona un módulo">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {modulos.map(modulo => (
-            <Button
-              key={modulo.id}
-              title={formatModuloNombreForDisplay(modulo.nombre)}
-              onClick={() => handleSelectModule(modulo.id)}
-              variant={modulo.esExamen ? "danger" : "primary"}
-            >
-              <div className="flex flex-col">
-                <span className="font-semibold">
-                  {formatModuloNombreForDisplay(modulo.nombre)}
-                </span>
-                <span className="text-sm opacity-80">
-                  {modulo.preguntas.length} preguntas
-                </span>
+          {modulos.map(modulo => {
+            const isPerfect = perfectModulos.has(String(modulo.id));
+            return (
+              <div key={modulo.id} className="relative">
+                <Button
+                  title={formatModuloNombreForDisplay(modulo.nombre)}
+                  onClick={() => handleSelectModule(modulo.id)}
+                  variant={modulo.esExamen ? "danger" : "primary"}
+                  fullWidth
+                >
+                  <div className="flex flex-col">
+                    <span className="font-semibold">
+                      {formatModuloNombreForDisplay(modulo.nombre)}
+                    </span>
+                    <span className="text-sm opacity-80">
+                      {modulo.preguntas.length} preguntas
+                    </span>
+                  </div>
+                </Button>
+                {isPerfect && (
+                  <span
+                    className="absolute top-1 right-1 flex items-center justify-center w-6 h-6 rounded-full bg-green-500 text-white text-xs font-bold shadow pointer-events-none"
+                    title="Completado con puntuación perfecta"
+                    aria-label="Módulo completado con puntuación perfecta"
+                  >
+                    ✓
+                  </span>
+                )}
               </div>
-            </Button>
-          ))}
+            );
+          })}
         </div>
       </Card>
       <Card title="O selecciona">
@@ -81,12 +120,10 @@ export default function ModuleSelector({ modulos, asignaturaId }) {
             fullWidth
             onClick={handleSelectAllModules}
           >
-            30 preguntas aleatorias de todos los módulos
+            Todas las preguntas de todos los módulos
           </Button>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 text-center">
-            {totalPreguntas > 30
-              ? `Se seleccionarán 30 preguntas aleatorias de un total de ${totalPreguntas}`
-              : `Se seleccionarán todas las ${totalPreguntas} preguntas disponibles`}
+            {`Se seleccionarán todas las ${totalPreguntas} preguntas disponibles en orden aleatorio`}
           </p>
 
           {/* Botón para solo módulos de examen, solo si hay alguno */}
@@ -99,12 +136,10 @@ export default function ModuleSelector({ modulos, asignaturaId }) {
               className="bg-red-600 hover:bg-red-700 focus:ring-red-500 dark:bg-red-700 dark:hover:bg-red-800"
               onClick={handleSelectExamenModules}
             >
-              30 preguntas aleatorias de test de examen
+              Todas las preguntas de test de examen
             </Button>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 text-center">
-              {totalPreguntasExamen > 30
-                ? `Se seleccionarán 30 preguntas aleatorias de un total de ${totalPreguntasExamen} (solo módulos de examen)`
-                : `Se seleccionarán todas las ${totalPreguntasExamen} preguntas disponibles (solo módulos de examen)`}
+              {`Se seleccionarán todas las ${totalPreguntasExamen} preguntas disponibles en orden aleatorio (solo módulos de examen)`}
             </p>
             </>
           )}

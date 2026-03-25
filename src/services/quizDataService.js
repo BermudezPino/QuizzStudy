@@ -203,26 +203,19 @@ export const fetchAllPreguntasByAsignatura = async (asignaturaId) => {
 };
 
 /**
- * Obtiene un número limitado de preguntas aleatorias de una asignatura
+ * Obtiene todas las preguntas de una asignatura en orden aleatorio
  * @async
  * @function fetchRandomPreguntasByAsignatura
  * @param {string|number} asignaturaId - Identificador de la asignatura
- * @param {number} [limit=30] - Número máximo de preguntas a retornar
- * @returns {Promise<Array<Object>>} Promesa que resuelve con un array de preguntas aleatorias
+ * @returns {Promise<Array<Object>>} Promesa que resuelve con un array de todas las preguntas en orden aleatorio
  */
-export const fetchRandomPreguntasByAsignatura = async (
-  asignaturaId,
-  limit = 30
-) => {
+export const fetchRandomPreguntasByAsignatura = async (asignaturaId) => {
   try {
     // Obtenemos todas las preguntas de la asignatura
     const todasPreguntas = await fetchAllPreguntasByAsignatura(asignaturaId);
 
     // Mezclamos las preguntas usando la función shuffleArray
-    const preguntasMezcladas = shuffleArray([...todasPreguntas]);
-
-    // Limitamos la cantidad de preguntas
-    return preguntasMezcladas.slice(0, limit);
+    return shuffleArray([...todasPreguntas]);
   } catch (error) {
     console.error("Error cargando preguntas aleatorias:", error);
     throw error;
@@ -230,18 +223,14 @@ export const fetchRandomPreguntasByAsignatura = async (
 };
 
 /**
- * Obtiene un número limitado de preguntas aleatorias de los módulos de examen de una asignatura
+ * Obtiene todas las preguntas de los módulos de examen de una asignatura en orden aleatorio
  * @async
  * @function fetchRandomPreguntasByAsignaturaExamen
  * @param {string|number} asignaturaId - Identificador de la asignatura
- * @param {number} [limit=30] - Número máximo de preguntas a retornar
- * @returns {Promise<Array<Object>>} Promesa que resuelve con un array de preguntas aleatorias de examen
+ * @returns {Promise<Array<Object>>} Promesa que resuelve con un array de todas las preguntas de examen en orden aleatorio
  * @throws {Error} Si la asignatura no existe o hay error al cargar sus módulos
  */
-export const fetchRandomPreguntasByAsignaturaExamen = async (
-  asignaturaId,
-  limit = 30
-) => {
+export const fetchRandomPreguntasByAsignaturaExamen = async (asignaturaId) => {
   try {
     const asignatura = await fetchAsignaturaCompleta(asignaturaId);
 
@@ -257,9 +246,8 @@ export const fetchRandomPreguntasByAsignaturaExamen = async (
     // Obtenemos todas las preguntas de esos módulos
     const todasPreguntas = modulosExamen.flatMap(m => m.preguntas);
 
-    // Mezclamos y limitamos
-    const preguntasMezcladas = shuffleArray([...todasPreguntas]);
-    return preguntasMezcladas.slice(0, limit);
+    // Mezclamos y devolvemos todas
+    return shuffleArray([...todasPreguntas]);
   } catch (error) {
     console.error("Error cargando preguntas de examen:", error);
     throw error;
