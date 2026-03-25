@@ -28,7 +28,7 @@ function getPerfectModulos(asignaturaId) {
     const historico = JSON.parse(localStorage.getItem('quiz_historico') || '[]');
     const perfectIds = new Set();
     for (const entry of historico) {
-      if (String(entry.asignaturaId) === String(asignaturaId) && entry.porcentaje === 100) {
+      if (String(entry.asignaturaId) === String(asignaturaId) && entry.puntuacion?.porcentaje === 100) {
         perfectIds.add(String(entry.moduloId));
       }
     }
