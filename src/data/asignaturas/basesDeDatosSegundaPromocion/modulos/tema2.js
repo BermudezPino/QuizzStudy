@@ -1,6 +1,6 @@
 const moduloTema2 = {
     id: 2002,
-    nombre: "Tema 2: SGBD, Modelo E-R, Normalización y SQL",
+    nombre: "TEST SEMANA SANTA",
     esExamen: false,
     asignaturaId: 20,
     descripcion: "Actividad evaluable de Semana Santa: sistemas de archivos, modelo entidad-relación, normalización y restricciones SQL.",
