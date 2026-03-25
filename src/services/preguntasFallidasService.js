@@ -74,6 +74,13 @@ export const addPreguntasFallidas = (entradas) => {
 };
 
 /**
+ * Elimina todas las preguntas fallidas de la lista (limpieza completa).
+ */
+export const clearPreguntasFallidas = () => {
+  localStorage.removeItem(STORAGE_KEY);
+};
+
+/**
  * Elimina de la lista las preguntas cuyos IDs se indican (acertadas en repaso).
  * @param {number[]} preguntaIds
  */

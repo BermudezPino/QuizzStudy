@@ -13,9 +13,18 @@ import { PageHeader } from '@components/layout';
 import { Button } from '@components/common';
 import { useQuizContext } from '@hooks';
 import { formatAsignaturaNombreForDisplay } from '@utils/quizUtils';
+import { clearPreguntasFallidas } from '@services/preguntasFallidasService';
 
 export default function QuizHeader({ getNombreModulo, handleExit, asignaturaId }) {
-  const { asignatura } = useQuizContext();
+  const { asignatura, tipoQuiz } = useQuizContext();
+
+  const handleClearFallidas = () => {
+    const confirmed = window.confirm('¿Seguro que quieres limpiar todas las preguntas falladas?');
+    if (confirmed) {
+      clearPreguntasFallidas();
+      handleExit();
+    }
+  };
 
   // Generar breadcrumbs para la navegación
   const breadcrumbs = [
@@ -30,9 +39,16 @@ export default function QuizHeader({ getNombreModulo, handleExit, asignaturaId }
       subtitle="Selecciona la respuesta correcta para cada pregunta"
       breadcrumbs={breadcrumbs}
       actions={
-        <Button onClick={handleExit} variant="secondary">
-          Salir del quiz
-        </Button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          {tipoQuiz === 'fallidas' && (
+            <Button onClick={handleClearFallidas} variant="secondary">
+              Limpiar preguntas falladas
+            </Button>
+          )}
+          <Button onClick={handleExit} variant="secondary">
+            Salir del quiz
+          </Button>
+        </div>
       }
     />
   );
