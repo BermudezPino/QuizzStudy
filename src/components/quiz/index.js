@@ -39,3 +39,6 @@ export { default as QuizHeader } from './session/QuizHeader';
 // Recursos y exportación
 export { default as ImageResource } from './media/ImageResource';
 export { default as PDFGenerator } from './export/PDFGenerator';
+
+// Estadísticas
+export { default as StatsCard } from './stats/StatsCard';

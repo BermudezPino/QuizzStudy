@@ -12,7 +12,7 @@
  */
 import { useEffect, useState } from 'react';
 import { Layout, PageHeader } from '@components/layout';
-import { SubjectSelector, PendingQuizzes, FavoriteQuizzes, FailedQuizzes } from '@components/quiz';
+import { SubjectSelector, PendingQuizzes, FavoriteQuizzes, FailedQuizzes, StatsCard } from '@components/quiz';
 import { LoadingSpinner, ErrorMessage, ToastContainer } from '@components/common';
 import { fetchAsignaturasPorAno } from '@services/quizDataService';
 
@@ -70,6 +70,7 @@ export default function HomePage() {
             <PendingQuizzes />
             <FavoriteQuizzes />
             <FailedQuizzes />
+            <StatsCard />
           </div>
         </div>
 

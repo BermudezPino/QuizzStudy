@@ -4,7 +4,8 @@ import { Suspense, lazy, useState, useEffect } from 'react';
 import {
   HomePage,
   AboutPage,
-  NotFoundPage
+  NotFoundPage,
+  StatisticsPage
 } from './pages';
 import { PWAInstallPrompt } from '@components/layout';
 import { ServiceWorkerUpdater, LoadingSpinner, ErrorMessage, ToastContainer, Button } from '@components/common';
@@ -84,6 +85,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/estadisticas" element={<StatisticsPage />} />
         <Route
           path="/asignaturas/:asignaturaId"
           element={
