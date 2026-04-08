@@ -15,13 +15,13 @@ ASIGNATURAS:
 - Rango recomendado para nuevas asignaturas: 20 en adelante
 
 MÓDULOS:
-- Último ID usado: 1901 (Sistemas Informáticos Segunda Promoción - Tema 1)
+- Último ID usado: 2103 (Entornos de Desarrollo Segunda Promoción - UML)
 - Patrón de IDs: [asignaturaId][númeroMódulo]
   Ejemplo: Asignatura 15, módulo 6 = 1506
 - Rango recomendado para nuevos módulos: seguir el patrón según asignatura
 
 PREGUNTAS:
-- Último ID usado: 19030 (Sistemas Informáticos Segunda Promoción - Tema 1)
+- Último ID usado: 210325 (Entornos de Desarrollo Segunda Promoción - UML, pregunta 25)
 - Patrón de IDs: [moduloId][númeroPregunta] (con 2 dígitos para el número)
   Ejemplo: Módulo 1901, pregunta 1 = 19001, pregunta 30 = 19030
 - Rango recomendado para nuevas preguntas: seguir el patrón según módulo
