@@ -120,6 +120,7 @@ export default function StatisticsPage() {
       const id = r.asignaturaId;
       if (!acc[id]) {
         acc[id] = {
+          id,
           nombre: getNombreAsignatura(id),
           tests: 0,
           totalPct: 0,
@@ -206,7 +207,7 @@ export default function StatisticsPage() {
             <div className="space-y-3">
               {statsPorAsignatura.map(s => (
                 <div
-                  key={s.nombre}
+                  key={s.id}
                   className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700"
                 >
                   <div className="flex items-center justify-between mb-2">
