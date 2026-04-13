@@ -1,7 +1,7 @@
 export const moduloComandosWindows = {
     id: 1905,
     nombre: "Comandos Windows",
-    esExamen: true,
+    esExamen: false,
     asignaturaId: 19,
     descripcion: "Comandos del símbolo del sistema (CMD) de Windows para 1DAM",
     preguntas: [
