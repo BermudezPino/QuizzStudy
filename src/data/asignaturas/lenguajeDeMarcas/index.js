@@ -12,8 +12,6 @@ import simulacroUnoLenguajeDeMarcas from "./modulos/simulacroUnoLenguajeDeMarcas
 import moduloSimulacroDosLenguajeDeMarcas from "./modulos/simulacroDosLenguajeDeMarcas";
 import moduloSimulacroTresLenguajeDeMarcas from "./modulos/simulacroTresLenguajeDeMarcas";
 import moduloExamenLenguajeMarcas from "./modulos/examenLenguaje";
-import moduloTest7XmlDtdXsd from "./modulos/test7XmlDtdXsd";
-
 export const lenguajesMarcas = {
   ...info,
   modulos: [
@@ -30,7 +28,6 @@ export const lenguajesMarcas = {
     moduloSimulacroDosLenguajeDeMarcas,
     moduloSimulacroTresLenguajeDeMarcas,
     moduloExamenLenguajeMarcas,
-    moduloTest7XmlDtdXsd,
   ],
 };
 export default lenguajesMarcas;

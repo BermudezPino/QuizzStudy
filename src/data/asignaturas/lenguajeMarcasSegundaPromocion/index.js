@@ -5,6 +5,7 @@ import moduloTema3 from "./modulos/tema3.js";
 import moduloTema4 from "./modulos/tema4.js";
 import moduloTema5 from "./modulos/tema5.js";
 import moduloTema6 from "./modulos/tema6.js";
+import moduloTest7XmlDtdXsd from "./modulos/test7XmlDtdXsd.js";
 
 
 export const lenguajeMarcasSegundaPromocion = {
@@ -16,6 +17,7 @@ export const lenguajeMarcasSegundaPromocion = {
         moduloTema4,
         moduloTema5,
         moduloTema6,
+        moduloTest7XmlDtdXsd,
     ],
 };
 
