@@ -51,6 +51,39 @@ function getNombreAsignatura(asignaturaId) {
   return `Asignatura ${asignaturaId}`;
 }
 
+/**
+ * Obtiene el nombre de un módulo por ID y asignaturaId.
+ * @param {number|string} moduloId - ID del módulo
+ * @param {number|string} asignaturaId - ID de la asignatura (para contexto)
+ * @returns {string} Nombre formateado del módulo
+ */
+function _getNombreModulo(moduloId, asignaturaId) {
+  if (moduloId === 'todos') return 'Todos los módulos';
+  if (moduloId === 'examen') return 'Modo examen';
+  if (moduloId === 'favoritos') return 'Preguntas favoritas';
+  if (!moduloId && moduloId !== 0) return 'Módulo desconocido';
+
+  // Intentar buscar el módulo en los datos
+  try {
+    const asignatura = obtenerAsignaturaPorId(parseInt(asignaturaId, 10));
+    if (asignatura?.modulos) {
+      const modulo = asignatura.modulos.find(m => m.id === parseInt(moduloId, 10));
+      if (modulo?.nombre) {
+        return formatModuloNombreForDisplay(modulo.nombre);
+      }
+    }
+    // Fallback con obtenerModuloPorId
+    const moduloGlobal = obtenerModuloPorId(parseInt(moduloId, 10));
+    if (moduloGlobal?.nombre) {
+      return formatModuloNombreForDisplay(moduloGlobal.nombre);
+    }
+  } catch {
+    // silenciar errores de búsqueda
+  }
+
+  return `Módulo ${moduloId}`;
+}
+
 
 export default function StatisticsPage() {
   const navigate = useNavigate();
