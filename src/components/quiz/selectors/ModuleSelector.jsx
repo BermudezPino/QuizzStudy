@@ -12,9 +12,10 @@
  * @param {string|number} props.asignaturaId - Identificador de la asignatura actual
  * @returns {JSX.Element} Componente ModuleSelector renderizado
  */
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Button } from '@components/common';
+import Dialog from '@components/common/dialogs/Dialog';
 import { formatModuloNombreForDisplay } from '@utils/quizUtils';
 
 /**
@@ -40,6 +41,8 @@ function getPerfectModulos(asignaturaId) {
 
 export default function ModuleSelector({ modulos, asignaturaId }) {
   const navigate = useNavigate();
+  const [notaDialogOpen, setNotaDialogOpen] = useState(false);
+  const [moduloPendiente, setModuloPendiente] = useState(null);
 
   // Compute which modules have ever been completed with a perfect score
   const perfectModulos = useMemo(() => getPerfectModulos(asignaturaId), [asignaturaId]);
@@ -59,8 +62,24 @@ export default function ModuleSelector({ modulos, asignaturaId }) {
     0
   );
 
-  const handleSelectModule = (moduloId) => {
-    navigate(`/quiz/${asignaturaId}/${moduloId}`);
+  const handleSelectModule = (modulo) => {
+    if (modulo.nota) {
+      setModuloPendiente(modulo);
+      setNotaDialogOpen(true);
+    } else {
+      navigate(`/quiz/${asignaturaId}/${modulo.id}`);
+    }
+  };
+
+  const handleConfirmNota = () => {
+    setNotaDialogOpen(false);
+    navigate(`/quiz/${asignaturaId}/${moduloPendiente.id}`);
+    setModuloPendiente(null);
+  };
+
+  const handleCancelNota = () => {
+    setNotaDialogOpen(false);
+    setModuloPendiente(null);
   };
 
   const handleSelectAllModules = () => {
@@ -85,7 +104,7 @@ export default function ModuleSelector({ modulos, asignaturaId }) {
               <div key={modulo.id} className="relative">
                 <Button
                   title={formatModuloNombreForDisplay(modulo.nombre)}
-                  onClick={() => handleSelectModule(modulo.id)}
+                  onClick={() => handleSelectModule(modulo)}
                   variant={modulo.esExamen ? "danger" : "primary"}
                   fullWidth
                 >
@@ -153,6 +172,18 @@ export default function ModuleSelector({ modulos, asignaturaId }) {
       >
         Volver a asignaturas
       </Button>
+
+      <Dialog
+        open={notaDialogOpen}
+        title="Aviso antes de empezar"
+        message={moduloPendiente?.nota}
+        confirmLabel="Entendido"
+        cancelLabel="Cancelar"
+        onConfirm={handleConfirmNota}
+        onCancel={handleCancelNota}
+        variant="primary"
+        size="medium"
+      />
     </div>
   );
 }

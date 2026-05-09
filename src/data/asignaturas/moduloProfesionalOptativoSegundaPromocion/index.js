@@ -3,9 +3,12 @@ import moduloTema1 from "./modulos/tema1.js";
 import moduloTema2 from "./modulos/tema2.js";
 import moduloTema3 from "./modulos/tema3.js";
 import moduloTestRepaso1 from "./modulos/testRepaso1.js";
+import moduloTestRepaso2 from "./modulos/testRepaso2.js";
+import moduloTestRepaso3 from "./modulos/testRepaso3.js";
 import moduloTestTema4 from "./modulos/testTema4.js";
 import moduloTestTema5 from "./modulos/testTema5.js";
 import moduloTestTema6 from "./modulos/testTema6.js";
+import moduloSimulacroFinalMPO from "./modulos/simulacroFinal.js";
 
 export const moduloProfesionalOptativoSegundaPromocion = {
     ...info,
@@ -17,6 +20,9 @@ export const moduloProfesionalOptativoSegundaPromocion = {
         moduloTestTema4,
         moduloTestTema5,
         moduloTestTema6,
+        moduloTestRepaso2,
+        moduloTestRepaso3,
+        moduloSimulacroFinalMPO,
     ],
 };
 
