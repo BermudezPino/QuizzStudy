@@ -4,6 +4,7 @@ import { Suspense, lazy, useState, useEffect } from 'react';
 import {
   HomePage,
   AboutPage,
+  ActualizacionesPage,
   NotFoundPage,
   StatisticsPage
 } from './pages';
@@ -85,6 +86,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/actualizaciones" element={<ActualizacionesPage />} />
         <Route path="/estadisticas" element={<StatisticsPage />} />
         <Route
           path="/asignaturas/:asignaturaId"

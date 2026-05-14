@@ -1,4 +1,5 @@
 export {default as AboutPage} from './AboutPage';
+export {default as ActualizacionesPage} from './ActualizacionesPage';
 export {default as HomePage} from './HomePage';
 export {default as ModulesPage} from './ModulesPage';
 export {default as NotFoundPage} from './NotFoundPage';

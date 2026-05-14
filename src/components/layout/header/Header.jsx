@@ -22,7 +22,8 @@ const Header = memo(function Header() {
   // Definimos los elementos de navegación una sola vez
   const navItems = useMemo(() => [
     { to: '/', label: 'Inicio' },
-    { to: '/about', label: 'Colabora' }
+    { to: '/about', label: 'Colabora' },
+    { to: '/actualizaciones', label: 'Actualizaciones' }
   ], []);
 
   // Utilizamos el hook personalizado para controlar la visibilidad en función del scroll
