@@ -95,30 +95,6 @@ export default function Button({
         50% { background-position: 100% 50%; }
         100% { background-position: 0% 50%; }
       }
-
-      @keyframes orbit-new {
-        0% { top: -20px; left: 50%; transform: translateX(-50%); }
-        25% { top: 50%; left: calc(100% + 20px); transform: translateY(-50%); }
-        50% { top: calc(100% + 20px); left: 50%; transform: translateX(-50%); }
-        75% { top: 50%; left: -20px; transform: translateY(-50%); }
-        100% { top: -20px; left: 50%; transform: translateX(-50%); }
-      }
-
-      @keyframes orbit-fancy {
-        0% { top: calc(100% + 20px); left: 50%; transform: translateX(-50%); }
-        25% { top: 50%; left: -20px; transform: translateY(-50%); }
-        50% { top: -20px; left: 50%; transform: translateX(-50%); }
-        75% { top: 50%; left: calc(100% + 20px); transform: translateY(-50%); }
-        100% { top: calc(100% + 20px); left: 50%; transform: translateX(-50%); }
-      }
-
-      @keyframes orbit-wow {
-        0% { top: 50%; left: calc(100% + 20px); transform: translateY(-50%); }
-        25% { top: calc(100% + 20px); left: 50%; transform: translateX(-50%); }
-        50% { top: 50%; left: -20px; transform: translateY(-50%); }
-        75% { top: -20px; left: 50%; transform: translateX(-50%); }
-        100% { top: 50%; left: calc(100% + 20px); transform: translateY(-50%); }
-      }
     `;
 
     // Solo agregamos los estilos si no existen ya
@@ -142,26 +118,6 @@ export default function Button({
         onMouseLeave={handleMouseLeave}
         data-rainbow="true"
       >
-        {/* Tag "NEW" rotando por el borde del botón */}
-        <div
-          className={`absolute bg-yellow-400 text-black text-xs px-2 py-0.5 rounded-md font-bold transition-all duration-700 ${isHovered ? 'opacity-100' : 'opacity-0'} z-20`}
-          style={{
-            animation: isHovered ? 'orbit-new 8s linear infinite' : 'none',
-          }}
-        >
-          NEW
-        </div>
-
-        {/* Tag "WOW" rotando por el borde del botón */}
-        <div
-          className={`absolute bg-cyan-500 text-white text-xs px-2 py-0.5 rounded-md font-bold transition-all duration-700 ${isHovered ? 'opacity-100' : 'opacity-0'} z-20`}
-          style={{
-            animation: isHovered ? 'orbit-wow 8s linear infinite' : 'none',
-          }}
-        >
-          WOW
-        </div>
-
         {/* Contenedor con borde arcoíris giratorio */}
         <div className="relative p-0.5 rounded-lg overflow-hidden">
           {/* Fondo animado arcoíris giratorio */}
@@ -183,16 +139,6 @@ export default function Button({
           >
             {children}
           </button>
-        </div>
-
-        {/* Tag "FANCY" rotando por el borde del botón */}
-        <div
-          className={`absolute bg-pink-500 text-white text-xs px-2 py-0.5 rounded-md font-bold transition-all duration-700 ${isHovered ? 'opacity-100' : 'opacity-0'} z-20`}
-          style={{
-            animation: isHovered ? 'orbit-fancy 8s linear infinite' : 'none',
-          }}
-        >
-          FANCY
         </div>
       </div>
     );

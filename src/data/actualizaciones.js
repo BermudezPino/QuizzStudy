@@ -1,5 +1,19 @@
 export const actualizaciones = [
     {
+        id: 25,
+        fecha: "2026-05-14",
+        titulo: "Fix: botón 'Todas las preguntas de test de examen'",
+        descripcion: "Eliminado el efecto visual raro (etiquetas animadas y borde arcoíris) que aparecía en el botón de todas las preguntas de test de examen.",
+        tags: ["Fix", "General"]
+    },
+    {
+        id: 24,
+        fecha: "2026-05-14",
+        titulo: "Modo Estudio",
+        descripcion: "Nuevo modo de estudio disponible al abrir cada módulo. Al responder muestra feedback inmediato (verde/rojo) y la explicación de la pregunta, sin guardar resultados en el historial.",
+        tags: ["Nueva función", "General"]
+    },
+    {
         id: 23,
         fecha: "2026-05-14",
         titulo: "Repaso 14/05 — Programación (2ª Promoción)",

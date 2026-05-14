@@ -189,7 +189,6 @@ export default function ModuleSelector({ modulos, asignaturaId }) {
             <Button
               variant="primary"
               fullWidth
-              rainbow
               className="bg-red-600 hover:bg-red-700 focus:ring-red-500 dark:bg-red-700 dark:hover:bg-red-800"
               onClick={handleSelectExamenModules}
             >
