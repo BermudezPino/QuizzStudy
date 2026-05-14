@@ -253,11 +253,11 @@ export default function QuestionCard({
       </div>
 
       {modoEstudio && hasAnswered && pregunta.explicacion && (
-        <div className="mt-4 px-4 py-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-          <p className="text-xs font-semibold uppercase tracking-wide text-blue-500 dark:text-blue-400 mb-1">
+        <div className="mt-4 px-3 py-3 sm:px-4 rounded-lg bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700">
+          <p className="text-xs font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-400 mb-1">
             Explicación
           </p>
-          <p className="text-sm text-blue-900 dark:text-blue-200 leading-relaxed">
+          <p className="text-sm sm:text-base text-blue-900 dark:text-blue-100 leading-relaxed break-words">
             {pregunta.explicacion}
           </p>
         </div>
