@@ -36,10 +36,14 @@ export default function QuizHeader({ getNombreModulo, handleExit, asignaturaId }
   return (
     <PageHeader
       title={`Quiz - ${getNombreModulo()}`}
-      subtitle="Selecciona la respuesta correcta para cada pregunta"
+      subtitle={
+        tipoQuiz === 'estudio'
+          ? 'Modo Estudio — el feedback es inmediato y no se guarda historial'
+          : 'Selecciona la respuesta correcta para cada pregunta'
+      }
       breadcrumbs={breadcrumbs}
       actions={
-        <div style={{ display: 'flex', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
           {tipoQuiz === 'fallidas' && (
             <Button onClick={handleClearFallidas} variant="secondary">
               Limpiar preguntas falladas

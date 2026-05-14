@@ -1,5 +1,12 @@
 export const actualizaciones = [
     {
+        id: 23,
+        fecha: "2026-05-14",
+        titulo: "Repaso 14/05 — Programación (2ª Promoción)",
+        descripcion: "Añadido test de repaso con 15 preguntas sobre variables, estructuras de control, arrays, colecciones (ArrayList y HashMap) y JavaFX en Programación 2ª Promoción.",
+        tags: ["Programación", "2ª Promoción", "Contenido"]
+    },
+    {
         id: 22,
         fecha: "2026-05-14",
         titulo: "Sección de Actualizaciones",

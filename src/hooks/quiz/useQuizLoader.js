@@ -140,7 +140,21 @@ export function useQuizLoader({
         // Cargar preguntas según el modo
         let quizQuestions = [];
 
-        if (moduloId === 'examen' || tipoQuiz === 'examen') {
+        if (tipoQuiz === 'estudio') {
+          // Modo estudio: cargar módulo igual que el modo regular
+          const moduloData = await fetchModulo(asigId, modId);
+
+          if (!mounted.current) return;
+
+          setModulo(moduloData);
+          quizQuestions = shuffleArray([...(moduloData.preguntas || [])]);
+
+          if (moduloData.esExamen) {
+            setModoExamen(true);
+          }
+
+          quizTipoToSet = 'estudio';
+        } else if (moduloId === 'examen' || tipoQuiz === 'examen') {
           // Modo examen: cargar preguntas aleatorias de módulos de examen
           const preguntasExamen = await fetchRandomPreguntasByAsignaturaExamen(asigId);
 

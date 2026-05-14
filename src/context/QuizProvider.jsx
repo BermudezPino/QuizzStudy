@@ -178,6 +178,7 @@ export function QuizProvider({ children }) {
 
     // Verificamos si es un quiz de favoritos
     const esFavoritosQuiz = state.tipoQuiz === 'favoritos';
+    const esEstudioQuiz = state.tipoQuiz === 'estudio';
 
     return {
       totalPreguntas,
@@ -186,7 +187,8 @@ export function QuizProvider({ children }) {
       tieneRespuestaActual,
       estadisticasPreguntas,
       asigId,
-      esFavoritosQuiz
+      esFavoritosQuiz,
+      esEstudioQuiz
     };
   }, [state.preguntas, state.preguntaActual, state.respuestas, state.asignatura, state.tipoQuiz]);
 

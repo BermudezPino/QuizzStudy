@@ -36,9 +36,11 @@ function QuizPageContent({ tipo }) {
   const location = useLocation();
 
   // Verificar si el usuario ha decidido continuar el test desde PendingQuizzes o iniciar un quiz de favoritos/fallidas
-  const continueFromPending = new URLSearchParams(location.search).get('continue') === 'true';
+  const searchParams = new URLSearchParams(location.search);
+  const continueFromPending = searchParams.get('continue') === 'true';
   const isFavoritesQuiz = moduloId === 'favoritos' || sessionStorage.getItem('start_favorites_quiz') === 'true';
   const isFallidasQuiz = (asignaturaId === 'fallidas' && moduloId === 'fallidas') || sessionStorage.getItem('start_fallidas_quiz') === 'true';
+  const isEstudioQuiz = searchParams.get('estudio') === 'true';
 
   // Estado para controlar si ya se ha verificado actualización
   const [updateChecked, setUpdateChecked] = useState(false);
@@ -47,10 +49,12 @@ function QuizPageContent({ tipo }) {
 
   // Establecer tipo de quiz basado en props o moduloId
   const tipoQuiz = tipo ||
-    (moduloId === 'todos' ? 'todos' :
-      (moduloId === 'examen' ? 'examen' :
-        (moduloId === 'favoritos' ? 'favoritos' :
-          (moduloId === 'fallidas' ? 'fallidas' : null))
+    (isEstudioQuiz ? 'estudio' :
+      (moduloId === 'todos' ? 'todos' :
+        (moduloId === 'examen' ? 'examen' :
+          (moduloId === 'favoritos' ? 'favoritos' :
+            (moduloId === 'fallidas' ? 'fallidas' : null))
+        )
       )
     );
 
@@ -63,6 +67,7 @@ function QuizPageContent({ tipo }) {
   // Acceder al contexto del quiz
   const {
     error,
+    respuestas,
     setRespuesta,
     tipoQuiz: contextTipoQuiz,
     setTipoQuiz,
@@ -71,11 +76,12 @@ function QuizPageContent({ tipo }) {
     notifyFavoriteToggled
   } = useQuizContext();
 
-  // Establecer el tipo de quiz en el contexto si es quiz de favoritos o fallidas
+  // Establecer el tipo de quiz en el contexto si es quiz de favoritos, fallidas o estudio
   useEffect(() => {
     if (isFavoritesQuiz) setTipoQuiz('favoritos');
     if (isFallidasQuiz) setTipoQuiz('fallidas');
-  }, [isFavoritesQuiz, isFallidasQuiz, setTipoQuiz]);
+    if (isEstudioQuiz) setTipoQuiz('estudio');
+  }, [isFavoritesQuiz, isFallidasQuiz, isEstudioQuiz, setTipoQuiz]);
 
   // Información para cargar quiz de favoritos
   const favoritesInfo = isFavoritesQuiz ? {
@@ -114,10 +120,15 @@ function QuizPageContent({ tipo }) {
 
   // Manejar la selección de respuestas
   const handleSelectAnswer = (preguntaId, respuestaIndex) => {
-    // Actualizar el estado
-    setRespuesta(preguntaId, respuestaIndex);
+    if (contextTipoQuiz === 'estudio') {
+      // No permitir deselección ni cambio de respuesta en modo estudio
+      if (respuestaIndex === undefined || respuestas[preguntaId] !== undefined) return;
 
-    // Guardar progreso después de cada respuesta
+      setRespuesta(preguntaId, respuestaIndex);
+      return;
+    }
+
+    setRespuesta(preguntaId, respuestaIndex);
     setTimeout(saveQuizProgress, 0);
   };
 

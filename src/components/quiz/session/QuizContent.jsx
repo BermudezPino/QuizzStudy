@@ -29,8 +29,11 @@ export default function QuizContent({
     preguntaActual,
     totalPreguntas,
     tieneRespuestaActual,
-    asignatura
+    asignatura,
+    tipoQuiz
   } = useQuizContext();
+
+  const modoEstudio = tipoQuiz === 'estudio';
 
   if (cargando) {
     return (
@@ -52,6 +55,7 @@ export default function QuizContent({
             showFavoriteButton={showFavoriteButton}
             asignaturaId={asignaturaId}
             asignatura={asignatura}
+            modoEstudio={modoEstudio}
           />
 
           {/* Navegación siguiente/anterior */}

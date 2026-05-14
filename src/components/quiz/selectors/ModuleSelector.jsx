@@ -18,6 +18,38 @@ import { Card, Button } from '@components/common';
 import Dialog from '@components/common/dialogs/Dialog';
 import { formatModuloNombreForDisplay } from '@utils/quizUtils';
 
+function EstudioToggle({ value, onChange }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        Modo Estudio
+      </span>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={value}
+        onClick={() => onChange(!value)}
+        className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 ${
+          value
+            ? 'bg-brand-600 dark:bg-brand-500'
+            : 'bg-gray-200 dark:bg-gray-700'
+        }`}
+      >
+        <span
+          className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow ring-0 transition-transform duration-200 ${
+            value ? 'translate-x-5' : 'translate-x-0'
+          }`}
+        />
+      </button>
+      {value && (
+        <span className="text-xs text-brand-600 dark:text-brand-400 font-medium">
+          Activo
+        </span>
+      )}
+    </div>
+  );
+}
+
 /**
  * Returns a Set of moduloId values that have been completed with 100% score
  * for the given asignaturaId, reading directly from localStorage.
@@ -43,6 +75,7 @@ export default function ModuleSelector({ modulos, asignaturaId }) {
   const navigate = useNavigate();
   const [notaDialogOpen, setNotaDialogOpen] = useState(false);
   const [moduloPendiente, setModuloPendiente] = useState(null);
+  const [estudioActivo, setEstudioActivo] = useState(false);
 
   // Compute which modules have ever been completed with a perfect score
   const perfectModulos = useMemo(() => getPerfectModulos(asignaturaId), [asignaturaId]);
@@ -62,18 +95,20 @@ export default function ModuleSelector({ modulos, asignaturaId }) {
     0
   );
 
+  const estudioSuffix = estudioActivo ? '?estudio=true' : '';
+
   const handleSelectModule = (modulo) => {
     if (modulo.nota) {
       setModuloPendiente(modulo);
       setNotaDialogOpen(true);
     } else {
-      navigate(`/quiz/${asignaturaId}/${modulo.id}`);
+      navigate(`/quiz/${asignaturaId}/${modulo.id}${estudioSuffix}`);
     }
   };
 
   const handleConfirmNota = () => {
     setNotaDialogOpen(false);
-    navigate(`/quiz/${asignaturaId}/${moduloPendiente.id}`);
+    navigate(`/quiz/${asignaturaId}/${moduloPendiente.id}${estudioSuffix}`);
     setModuloPendiente(null);
   };
 
@@ -97,6 +132,9 @@ export default function ModuleSelector({ modulos, asignaturaId }) {
   return (
     <div className="space-y-6">
       <Card title="Selecciona un módulo">
+        <div className="flex justify-end mb-4">
+          <EstudioToggle value={estudioActivo} onChange={setEstudioActivo} />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {modulos.map(modulo => {
             const isPerfect = perfectModulos.has(String(modulo.id));

@@ -30,7 +30,8 @@ export default function QuestionCard({
   onSelectAnswer,
   asignaturaId,
   showFavoriteButton = false,
-  asignatura
+  asignatura,
+  modoEstudio = false
 }) {
   const { darkMode } = useTheme();
   const { isMobile, isTablet } = useDeviceType();
@@ -55,11 +56,21 @@ export default function QuestionCard({
 
   if (!pregunta) return null;
 
+  const hasAnswered = respuestaSeleccionada !== undefined;
+
   const handleClickOption = (id, index) => {
+    // En modo estudio no se permite cambiar ni deseleccionar la respuesta
+    if (modoEstudio) {
+      if (!hasAnswered) {
+        onSelectAnswer(id, index);
+      }
+      return;
+    }
+
     if (respuestaSeleccionada === index) {
-      onSelectAnswer(id, undefined); // Deseleccionar opción
+      onSelectAnswer(id, undefined);
     } else {
-      onSelectAnswer(id, index); // Seleccionar opción
+      onSelectAnswer(id, index);
     }
   };
 
@@ -179,24 +190,53 @@ export default function QuestionCard({
       <div className="space-y-3">
         {pregunta.opciones.map((opcion, index) => {
           const isSelected = respuestaSeleccionada === index;
+          const isCorrect = index === pregunta.respuestaCorrecta;
+
+          // Clases de feedback para modo estudio (solo tras responder)
+          let estudioClass = '';
+          let estudioIndicatorClass = '';
+          if (modoEstudio && hasAnswered) {
+            if (isCorrect) {
+              estudioClass = 'bg-green-50 dark:bg-green-900/30 border-green-400 dark:border-green-600 ring-2 ring-green-400 dark:ring-green-600';
+              estudioIndicatorClass = 'bg-green-500 border-green-500';
+            } else if (isSelected) {
+              estudioClass = 'bg-red-50 dark:bg-red-900/30 border-red-400 dark:border-red-600 ring-2 ring-red-400 dark:ring-red-600';
+              estudioIndicatorClass = 'bg-red-500 border-red-500';
+            } else {
+              estudioClass = 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 opacity-60';
+              estudioIndicatorClass = 'border-gray-400 dark:border-gray-500';
+            }
+          }
+
+          const buttonClass = modoEstudio && hasAnswered
+            ? `w-full text-left p-4 rounded-lg border transition duration-200 ${estudioClass} ${hasAnswered ? 'cursor-default' : 'hover:cursor-pointer'}`
+            : `w-full text-left hover:cursor-pointer p-4 rounded-lg border transition duration-200 ${
+                isSelected
+                  ? 'bg-brand-100 dark:bg-brand-900 dark:bg-opacity-40 border-brand-300 dark:border-brand-700 ring-2 ring-brand-500 dark:ring-brand-400'
+                  : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
+              }`;
+
+          const indicatorClass = modoEstudio && hasAnswered
+            ? `shrink-0 h-5 w-5 rounded-full border ${estudioIndicatorClass} mt-0.5 mr-3 flex items-center justify-center`
+            : `shrink-0 h-5 w-5 rounded-full border ${
+                isSelected
+                  ? 'bg-brand-600 border-brand-600'
+                  : 'border-gray-400 dark:border-gray-500'
+              } mt-0.5 mr-3 flex items-center justify-center`;
+
+          const showIndicatorDot = modoEstudio && hasAnswered
+            ? (isCorrect || isSelected)
+            : isSelected;
 
           return (
             <button
               key={index}
-              className={`w-full text-left hover:cursor-pointer p-4 rounded-lg border transition duration-200 ${
-                isSelected
-                  ? 'bg-brand-100 dark:bg-brand-900 dark:bg-opacity-40 border-brand-300 dark:border-brand-700 ring-2 ring-brand-500 dark:ring-brand-400'
-                  : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
-              }`}
+              className={buttonClass}
               onClick={() => handleClickOption(pregunta.id, index)}
             >
               <div className="flex items-start">
-                <div className={`shrink-0 h-5 w-5 rounded-full border ${
-                  isSelected
-                    ? 'bg-brand-600 border-brand-600'
-                    : 'border-gray-400 dark:border-gray-500'
-                } mt-0.5 mr-3 flex items-center justify-center`}>
-                  {isSelected && (
+                <div className={indicatorClass}>
+                  {showIndicatorDot && (
                     <div className="h-2 w-2 rounded-full bg-white"></div>
                   )}
                 </div>
@@ -211,6 +251,17 @@ export default function QuestionCard({
           );
         })}
       </div>
+
+      {modoEstudio && hasAnswered && pregunta.explicacion && (
+        <div className="mt-4 px-4 py-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+          <p className="text-xs font-semibold uppercase tracking-wide text-blue-500 dark:text-blue-400 mb-1">
+            Explicación
+          </p>
+          <p className="text-sm text-blue-900 dark:text-blue-200 leading-relaxed">
+            {pregunta.explicacion}
+          </p>
+        </div>
+      )}
     </Card>
   );
 }

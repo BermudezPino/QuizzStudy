@@ -8,6 +8,7 @@ import moduloTema6 from "./modulos/tema6.js";
 import moduloTema7 from "./modulos/tema7.js";
 import moduloTema8 from "./modulos/tema8.js";
 import moduloExamen from "./modulos/examen.js";
+import repaso14Mayo from "./modulos/repaso14mayo.js";
 
 
 export const programacionSegundaPromocion = {
@@ -22,6 +23,7 @@ export const programacionSegundaPromocion = {
         moduloTema7,
         moduloTema8,
         moduloExamen,
+        repaso14Mayo,
     ],
 };
 

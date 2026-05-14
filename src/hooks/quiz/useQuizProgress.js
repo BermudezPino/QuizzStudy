@@ -54,6 +54,10 @@ export function useQuizProgress({
       return "Todos los módulos";
     }
 
+    if (tipoQuiz === 'estudio') {
+      return modulo ? `${formatModuloNombreForDisplay(modulo.nombre)} (Estudio)` : "Modo Estudio";
+    }
+
     if (modulo) return formatModuloNombreForDisplay(modulo.nombre);
 
     return "Módulo";
@@ -63,6 +67,11 @@ export function useQuizProgress({
   const saveQuizProgress = useCallback(() => {
     // No guardar progreso si no hay preguntas cargadas
     if (!preguntas || preguntas.length === 0) {
+      return;
+    }
+
+    // En modo estudio no se persiste progreso
+    if (tipoQuiz === 'estudio') {
       return;
     }
 

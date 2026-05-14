@@ -71,6 +71,13 @@ export function useQuizNavigation({
           esExamen: false
         }));
         navigate('/resultados/fallidas/fallidas');
+      } else if (tipoQuiz === 'estudio' && modulo) {
+        sessionStorage.setItem('quiz_modulo', JSON.stringify({
+          id: modulo.id,
+          nombre: formatModuloNombreForDisplay(modulo.nombre),
+          esExamen: modulo.esExamen
+        }));
+        navigate(`/resultados/${asignaturaId}/${modulo.id}?estudio=true`);
       } else if (modulo) {
         sessionStorage.setItem('quiz_modulo', JSON.stringify({
           id: modulo.id,

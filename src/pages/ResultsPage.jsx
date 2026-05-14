@@ -18,7 +18,7 @@
  * @returns {JSX.Element} Componente ResultsPage renderizado
  */
 import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Layout, PageHeader } from '@components/layout';
 import { ResultSummary, QuestionReview } from '@components/quiz';
 import { Button, ErrorMessage } from '@components/common';
@@ -31,6 +31,8 @@ import { PDFGenerator } from '@components/quiz/';
 export default function ResultsPage() {
   const { asignaturaId, moduloId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isEstudioResult = new URLSearchParams(location.search).get('estudio') === 'true';
 
   // Estado local
   const [preguntas, setPreguntas] = useState([]);
@@ -65,25 +67,39 @@ export default function ResultsPage() {
 
       const tipoQuiz = sessionStorage.getItem('quiz_tipo') || 'regular';
 
-      // Preguntas fallidas: añadir las que falló (quiz normal) o quitar las que acertó (repaso fallidas)
-      if (tipoQuiz === 'fallidas') {
-        const acertadas = preguntasData.filter(
-          (p) => respuestasData[p.id] === p.respuestaCorrecta
-        ).map((p) => p.id);
-        if (acertadas.length > 0) {
-          removePreguntasFallidas(acertadas);
+      // En modo estudio no se guarda nada en historial ni preguntas fallidas
+      if (tipoQuiz !== 'estudio') {
+        // Preguntas fallidas: añadir las que falló (quiz normal) o quitar las que acertó (repaso fallidas)
+        if (tipoQuiz === 'fallidas') {
+          const acertadas = preguntasData.filter(
+            (p) => respuestasData[p.id] === p.respuestaCorrecta
+          ).map((p) => p.id);
+          if (acertadas.length > 0) {
+            removePreguntasFallidas(acertadas);
+          }
+        } else {
+          const fallidas = preguntasData
+            .filter((p) => respuestasData[p.id] !== p.respuestaCorrecta)
+            .map((p) => ({
+              preguntaId: p.id,
+              moduloId: p.moduloId ?? moduloData?.id,
+              asignaturaId: asignaturaData?.id
+            }))
+            .filter((e) => e.moduloId != null && e.asignaturaId != null);
+          if (fallidas.length > 0) {
+            addPreguntasFallidas(fallidas);
+          }
         }
-      } else {
-        const fallidas = preguntasData
-          .filter((p) => respuestasData[p.id] !== p.respuestaCorrecta)
-          .map((p) => ({
-            preguntaId: p.id,
-            moduloId: p.moduloId ?? moduloData?.id,
-            asignaturaId: asignaturaData?.id
-          }))
-          .filter((e) => e.moduloId != null && e.asignaturaId != null);
-        if (fallidas.length > 0) {
-          addPreguntasFallidas(fallidas);
+
+        // Guardar resultados — no guardar si es quiz de fallidas
+        if (tipoQuiz !== 'fallidas' && asignaturaId !== 'fallidas') {
+          guardarResultadosQuiz({
+            asignaturaId: parseInt(asignaturaId, 10),
+            moduloId: moduloId === 'todos' ? 'todos' : parseInt(moduloId, 10),
+            preguntas: preguntasData.map(p => p.id),
+            respuestas: respuestasData,
+            puntuacion
+          }).catch(err => console.error("Error al guardar resultados:", err));
         }
       }
 
@@ -94,17 +110,6 @@ export default function ResultsPage() {
       const quizKey = `quiz_progress_${asignaturaId}_${moduloId}`;
       localStorage.removeItem(quizKey);
 
-      // Guardar resultados (opcional) — no guardar si es quiz de fallidas
-      if (tipoQuiz !== 'fallidas' && asignaturaId !== 'fallidas') {
-        guardarResultadosQuiz({
-          asignaturaId: parseInt(asignaturaId, 10),
-          moduloId: moduloId === 'todos' ? 'todos' : parseInt(moduloId, 10),
-          preguntas: preguntasData.map(p => p.id),
-          respuestas: respuestasData,
-          puntuacion
-        }).catch(err => console.error("Error al guardar resultados:", err));
-      }
-
       setCargando(false);
     } catch (err) {
       console.error("Error al recuperar resultados:", err);
@@ -114,7 +119,6 @@ export default function ResultsPage() {
   }, [asignaturaId, moduloId]);
 
   const handleRetry = () => {
-    // Recuperamos el tipo de quiz de sessionStorage
     const tipoQuiz = sessionStorage.getItem('quiz_tipo') || 'regular';
 
     if (moduloId === 'fallidas' || tipoQuiz === 'fallidas') {
@@ -123,7 +127,11 @@ export default function ResultsPage() {
       return;
     }
 
-    // Si el tipo es examen o todos, usamos rutas especiales
+    if (tipoQuiz === 'estudio' || isEstudioResult) {
+      navigate(`/quiz/${asignaturaId}/${moduloId}?estudio=true`);
+      return;
+    }
+
     if (moduloId === 'examen' || tipoQuiz === 'examen') {
       navigate(`/quiz/${asignaturaId}/examen`);
     } else if (moduloId === 'todos' || tipoQuiz === 'todos') {
@@ -193,6 +201,12 @@ export default function ResultsPage() {
       />
 
       <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        {isEstudioResult && (
+          <div className="mb-6 px-4 py-3 rounded-lg bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 text-blue-700 dark:text-blue-300 text-sm">
+            Modo Estudio — esta sesión no se ha guardado en el historial ni en preguntas falladas.
+          </div>
+        )}
+
         {/* Contenedor modificado para mostrar ResultSummary y PDFGenerator en columna en lugar de fila */}
         <div className="flex flex-col mb-8 gap-4 bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
           <ResultSummary puntuacion={resultados} />
